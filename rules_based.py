@@ -33,7 +33,6 @@ def determine_category(line, model):
         max_key = random.choice(list(best.keys()))
 
     return max_key
-    #print(max_key)
 
 def parse_line(string):
     cleanr = re.compile('<question>')
@@ -55,7 +54,6 @@ def read_parallel(filename):
         eline = parse_line(eline)
         fwords = fline.split()
         ewords = eline.split()
-        #data.append((fwords, ewords))
         data.append((ewords, fwords))
     return data
 
@@ -63,7 +61,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--train', type=str, help='training data')
     parser.add_argument('--test', type=str, help='testing data')
-    #parser.add_argument('infile', nargs='?', type=str, help='test data to translate')
     parser.add_argument('-o', '--outfile', type=str, help='write translations to file')
     args = parser.parse_args()
 
@@ -73,12 +70,11 @@ if __name__ == '__main__':
         model = {}
         for line in traindata:
             category = " ".join(line[1])
-            words = [word for word in line[0] if len(word) > 4]
+            words = [word for word in line[0]]
             if category not in model:
                 model[category] = Counter(words)
             else:
                 model[category].update(words)
-        
 
         # Find the best match for the test data
         f = open(args.test, "r")
