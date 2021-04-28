@@ -4,6 +4,10 @@ import json
 import csv
 import pprint
 import re
+from nltk.corpus import stopwords
+
+import nltk
+nltk.download('stopwords')
 
 def clean_question(string):
     # Clean an input string
@@ -41,6 +45,8 @@ if __name__ == '__main__':
     print(f"Number of entries: {len(questions)}")
     shows = list(questions)
     
+    stop_words = set(stopwords.words('english')) 
+
     f = open("data/all_data.qa-cat", "a")
     count = 0
     for show in shows:
@@ -53,8 +59,12 @@ if __name__ == '__main__':
             for q_and_a in q_and_as:
                 question = q_and_a["question"].strip('\'').strip()
                 question = clean_question(question).lower()
+                question = [w for w in question.split() if w not in stop_words]
+                question = " ".join(question)
                 answer = q_and_a["answer"].strip().lower()
-                to_write = f"<question>{question}<answer>{answer}"
+                answer = [w for w in answer.split() if w not in stop_words]
+                answer = " ".join(answer)
+                to_write = f" {question} {answer} "
                 f.write(to_write)
             f.write("\n")
     
