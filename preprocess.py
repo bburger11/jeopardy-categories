@@ -4,15 +4,21 @@ import json
 import csv
 import pprint
 import re
+import string
 from nltk.corpus import stopwords
 
 import nltk
 nltk.download('stopwords')
 
-def clean_question(string):
+def clean_question(quest, stop_words):
     # Clean an input string
     cleanr = re.compile('<.*?>')
-    cleantext = re.sub(cleanr, '', string)
+    cleantext = re.sub(cleanr, '', quest)
+    cleantext = " ".join([w for w in cleantext.split(" ") if w.lower() not in stop_words])
+    # Remove punctuation
+    cleantext = cleantext.translate(str.maketrans('', '', string.punctuation))
+    #cleantext = cleantext.replace("\"", "")
+    #cleantext = cleantext.replace("\'", "")
     return cleantext
 
 
@@ -45,8 +51,8 @@ if __name__ == '__main__':
     print(f"Number of entries: {len(questions)}")
     shows = list(questions)
     
+    
     stop_words = set(stopwords.words('english')) 
-
     f = open("data/all_data.qa-cat", "a")
     count = 0
     for show in shows:
@@ -57,15 +63,15 @@ if __name__ == '__main__':
             to_write = f"{category.lower()}\t"
             f.write(to_write)
             for q_and_a in q_and_as:
+                count +=1
                 question = q_and_a["question"].strip('\'').strip()
-                question = clean_question(question).lower()
-                question = [w for w in question.split() if w not in stop_words]
-                question = " ".join(question)
+                question = clean_question(question, stop_words)
                 answer = q_and_a["answer"].strip().lower()
-                answer = [w for w in answer.split() if w not in stop_words]
+                answer = [w for w in answer.split(" ") if w.lower() not in stop_words]
                 answer = " ".join(answer)
                 to_write = f" {question} {answer} "
                 f.write(to_write)
             f.write("\n")
+    print(count)
     
             
