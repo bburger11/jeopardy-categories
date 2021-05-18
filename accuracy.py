@@ -1,4 +1,7 @@
 import sys
+from nltk.corpus import stopwords
+import nltk
+nltk.download('stopwords')
 
 lines1 = [' '.join(line.split()) for line in open(sys.argv[1])]
 lines2 = [' '.join(line.split()) for line in open(sys.argv[2])]
@@ -7,16 +10,19 @@ if len(lines1) != len(lines2):
     raise ValueError()
 
 def common_data(list1, list2):
+    stop_words = set(stopwords.words('english')) 
     for x in list1:
         for y in list2:
-            if x == y:
+            if x.lower() == y.lower() and x not in stop_words and y not in stop_words:
+                print("PARTIAL: ", end="")
+                print(" ".join(list1), " ".join(list2))
                 return True 
     return False
 
 total = correct = partial = combined = 0
 for line1, line2 in zip(lines1, lines2):
     total += 1
-    if line1 == line2:
+    if line1.lower() == line2.lower():
         correct += 1
         combined += 1
         #print(f"{line1} and {line2}")
