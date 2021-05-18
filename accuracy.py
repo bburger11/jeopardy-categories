@@ -14,8 +14,6 @@ def common_data(list1, list2):
     for x in list1:
         for y in list2:
             if x.lower() == y.lower() and x not in stop_words and y not in stop_words:
-                print("PARTIAL: ", end="")
-                print(" ".join(list1), " ".join(list2))
                 return True 
     return False
 
