@@ -13,6 +13,10 @@ def common_data(list1, list2):
     stop_words = set(stopwords.words('english')) 
     for x in list1:
         for y in list2:
+            # Comment this line for stop words to be included in positive results
+            #if x.lower() == y.lower():
+            
+            # Comment this line for stop words to be excluded from positive results
             if x.lower() == y.lower() and x not in stop_words and y not in stop_words:
                 return True 
     return False
