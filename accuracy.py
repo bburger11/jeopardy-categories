@@ -23,14 +23,11 @@ for line1, line2 in zip(lines1, lines2):
     if line1.lower() == line2.lower():
         correct += 1
         combined += 1
-        #print(f"{line1} and {line2}")
 
     
     elif common_data(line1.split(), line2.split()):
         partial += 1
         combined += 1
-        #print(f"{line1} and {line2}")
-
 
 print(f"Precisely Correct: {correct}")
 print(f"Partially Correct: {partial}")
