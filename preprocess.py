@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 import json
-import csv
-import pprint
 import re
 import string
 from nltk.corpus import stopwords
@@ -17,8 +15,6 @@ def clean_question(quest, stop_words):
     cleantext = " ".join([w for w in cleantext.split(" ") if w.lower() not in stop_words])
     # Remove punctuation
     cleantext = cleantext.translate(str.maketrans('', '', string.punctuation))
-    #cleantext = cleantext.replace("\"", "")
-    #cleantext = cleantext.replace("\'", "")
     return cleantext
 
 
@@ -73,5 +69,3 @@ if __name__ == '__main__':
                 f.write(to_write)
             f.write("\n")
     print(count)
-    
-            
